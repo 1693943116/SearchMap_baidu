@@ -9,12 +9,18 @@ export const useInitMap = (setLocation, lng, lat, callback) => {
       let point;
       if (lng && lat) {
         point = new window.BMapGL.Point(lng, lat);
+      } else {
+        point = new window.BMapGL.Point(res.center.lng, res.center.lat);
       }
-      point = new window.BMapGL.Point(res.center.lng, res.center.lat);
+
       map.centerAndZoom(point, 13);
       const marker = new window.BMapGL.Marker(point);
       map.addOverlay(marker);
-      setLocation([res.center.lng, res.center.lat]);
+      if (lng && lat) {
+        setLocation([lng, lat]);
+      } else {
+        setLocation([res.center.lng, res.center.lat]);
+      }
     });
 
     map.enableScrollWheelZoom(true);
